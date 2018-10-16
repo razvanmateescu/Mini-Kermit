@@ -1,0 +1,24 @@
+Am creat in lib.h o structura pentru Kermit cu campurile precizate si o structura pt send init si am initializat valorile.
+
+In Emitator Campul data l am initializat cu 0 initial si l am completat cu campurile specifice.
+Am aplicat suma de control pe 2 bytes pentru toate mesajele noi trimise si am copiat o in mesaj.Lungimea mesajului este lungimea structurii kermit.
+Apoi intr o bucla primesc mesajul de la receiver daca mesajul este pierdut retrimit ultimul mesaj incrementand cu un contor pentru ca daca primesc de mai mult de 3 ori timeout ies din program ,
+daca este eronat retrimit actualizand campul SEQ. Daca confirmarea este de tip ACK  ies din bucla .
+Apoi intro bucla cu nr de fisiere primite ca input , copiez in campul data numele fisierelor si trimit mesajul la receptor.
+Astept in acleasi mod primirea confirmarii de la receptor.Apoi pentru o confirmare ack ies din bucla si deschid fisierul cu numele corespunzator pt citirea datelor.
+Citesc un numar maxim de MAXL de date din fisier si le pun in structura in campul DATA,contorizand si nr bytesilor cititi.
+Cat timp acesta e diferit de zero prelucrez ca si pana acu mesajul primit intr o bucla.Daca e 0 trimit mesajul de final de fisier
+inchid fisierul de citire si incrementez contorul pe care il folosesc pt a sti cand nu mai sunt fisiere de citit sa trimit mesajul EOT si sa ies din program
+Inainte de a trimite mesajul EOT testez daca contorul este egal cu argc -1.
+
+In receptor pentru Send init astept de 3 ori time adica 15 secunda daca nu se primeste nimic ies din prgram.
+Pentru fiecare mesaj primit testez daca campul CHECK din payload ce contine suma de control este egal cu suma e control formata cu mesajul primit 
+trimit confirmarea la emitator si ies din bucla,
+Apoi intro bucla primesc pachete de tip fileheader si data cat timp mai are  emitatorul pachete de trimis.
+Cand primesc un pachet titlu prefixez numele acestuia si apoi deschid fisierul in care scriu datele.primind fiecar epachet intr o alta bucla.
+Cand primesc un pachet EOF ies din bucla coresp fisierului pe car eil inchid.si deschid alt fisier pt scriere cu numele urmatului titlu primit.
+Cand primesc un pachet de tip EOT ies din program.
+ 
+
+
+
